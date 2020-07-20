@@ -5,13 +5,14 @@ import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
 
 
-const   FILTER_MAP = {
-  ALL: () => true,
+const FILTER_MAP = {
+  All: () => true,
   Active: task => !task.completed,
   Completed: task => task.completed
-}
+};
 
-const FILTER_NAMES = Object.keys(FILTER_MAP)
+const FILTER_NAMES = Object.keys(FILTER_MAP);
+
 
 function App(props) {
 
@@ -50,18 +51,19 @@ function App(props) {
     });
     setTasks(updatedTasks);
   }
-  const taskList = tasks.map(task => (
+  const taskList = tasks
+  .filter(FILTER_MAP[filter])
+  .map(task => (
     <Todo
-        id={task.id}
-        name={task.name}
-        completed={task.completed}
-        key={task.id}
-        toggleTaskCompleted={toggleTaskCompleted}
-        deleteTask={deleteTask}
-        editTask={editTask}
-      />
-    )
-  );
+      id={task.id}
+      name={task.name}
+      completed={task.completed}
+      key={task.id}
+      toggleTaskCompleted={toggleTaskCompleted}
+      deleteTask={deleteTask}
+      editTask={editTask}
+    />
+  ));
   const filterList = FILTER_NAMES.map(name => (
     <FilterButton
       key={name}
@@ -77,7 +79,7 @@ function App(props) {
     <div className="todoapp stack-large">
       <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">
-        {filterList}
+        {filterList} 
       </div>
   <h2 id="list-heading">{headingText}</h2>
       <ul
